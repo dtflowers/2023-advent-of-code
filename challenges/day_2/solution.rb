@@ -9,33 +9,27 @@ sum = input.each.map do |game|
   most_blues = 0
   most_greens = 0
   most_reds = 0
+
   results = game.split(": ").last.split("; ")
+
   results.each do |result|
-    array = result.strip.split(", ")
-    array.each do |cubes|
-      quantity_and_color = cubes.split
-      quantity = quantity_and_color.first.to_i
-      color = quantity_and_color.last
+    cubes = result.strip.split(", ")
+    cubes.each do |cube|
+      quantity = cube.split.first.to_i
+      color = cube.split.last
       case color
       when "blue"
-        if quantity > most_blues
-          most_blues = quantity
-        end
+        most_blues = quantity if quantity > most_blues
       when "green"
-        if quantity > most_greens
-          most_greens = quantity
-        end
+        most_greens = quantity if quantity > most_greens
       when "red"
-        if quantity > most_reds
-          most_reds = quantity
-        end
+        most_reds = quantity if quantity > most_reds
       end
     end
   end
-  blue_impossible = most_blues > maximum_blues
-  green_impossible = most_greens > maximum_greens
-  red_impossible = most_reds > maximum_reds
-  impossible = (blue_impossible || green_impossible || red_impossible)
+
+  impossible = (most_blues > maximum_blues || most_greens > maximum_greens || most_reds > maximum_reds)
+
   if impossible
     0
   else
@@ -44,3 +38,4 @@ sum = input.each.map do |game|
 end.sum
 
 puts "The solution to part one of the challenge is #{sum}."
+### END OF PART 1 SOLUTION ####
