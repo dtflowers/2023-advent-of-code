@@ -28,7 +28,7 @@ sum = input.each.map do |game|
     end
   end
 
-  impossible = (most_blues > maximum_blues || most_greens > maximum_greens || most_reds > maximum_reds)
+  impossible = most_blues > maximum_blues || most_greens > maximum_greens || most_reds > maximum_reds
 
   if impossible
     0
@@ -39,3 +39,5 @@ end.sum
 
 puts "The solution to part one of the challenge is #{sum}."
 ### END OF PART 1 SOLUTION ####
+
+### BEGINNING OF PART 2 SOLUTION ####
