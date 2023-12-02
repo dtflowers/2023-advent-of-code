@@ -35,7 +35,7 @@ sum = input.each.map do |game|
   blue_impossible = most_blues > maximum_blues
   green_impossible = most_greens > maximum_greens
   red_impossible = most_reds > maximum_reds
-  impossible = (blue_impossible || green_impossible|| red_impossible)
+  impossible = (blue_impossible || green_impossible || red_impossible)
   if impossible
     0
   else
