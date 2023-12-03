@@ -92,4 +92,43 @@ end
 
 solution = part_numbers.sum
 
-puts "The solution to part one is #{solution}."
+puts "The solution to part one is #{solution}"
+### END OF PART 1 SOLUTION ####
+
+### BEGINNING OF PART 2 SOLUTION ####
+asterisk_coordinates = []
+lines.each_with_index do |line, y|
+  line.strip.chars.each_with_index do |char, x|
+    is_asterisk = char == "*"
+    next unless is_asterisk
+
+    asterisk_coordinates << {
+      coordinates: "(#{x}, #{y})",
+      count: 0,
+      ratio: 1
+    }
+  end
+end
+
+positions.each do |position|
+  asterisk_coordinates.each do |asterisk|
+    is_adjacent = position[:positions].include? asterisk[:coordinates]
+    next unless is_adjacent
+
+    asterisk[:count] += 1
+    asterisk[:ratio] = asterisk[:ratio] * position[:value]
+  end
+end
+
+gear_ratios = asterisk_coordinates.map do |asterisk|
+  if asterisk[:count] > 1
+    asterisk[:ratio]
+  else
+    0
+  end
+end
+
+solution = gear_ratios.sum
+
+puts "The solution to part two is #{solution}"
+### END OF PART 2 SOLUTION ####
