@@ -1,20 +1,7 @@
 ### BEGINNING OF PART 1 SOLUTION ####
-lines = File.readlines("test.txt")
-
-# specials = []
-# lines.each do |line|
-#   characters = line.tr("a-zA-Z", "").tr("0-9", "").tr(".", "").strip.chars.uniq
-#   characters.each do |character|
-#     specials << character
-#   end
-# end
-
-# specials = specials.uniq
-# pp specials
+lines = File.readlines("input.txt")
 
 numbers_coordinates = []
-symbol_coordinates = []
-
 lines.each_with_index do |line, outer_index|
   items = line.strip.split(".")
   items.reject!(&:empty?) if items.count > 1
@@ -28,14 +15,21 @@ lines.each_with_index do |line, outer_index|
         starting_x_coordinate: line.index(item),
         y_coordinate: outer_index
       }
-    elsif length == 1
-      # NOTE WE ARE SO CLOSE BUT WE HAVE TO HANDLE THESE MULTIPLE CHARACTERS!!
-      symbol = item
-      symbol_coordinates << "(#{line.index(symbol)}, #{outer_index})"
-    else
+      line[line.index(item)...(line.index(item) + item.length)] =
+        case item.length
+        when 1
+          "x"
+        when 2
+          "xx"
+        when 3
+          "xxx"
+        when 4
+          "xxxx"
+        when 5
+          "xxxxx"
+        end
+    elsif length > 1
       numbers = item.scan(/\d+/)
-      symbols = item.scan(/\W/)
-      pp symbols
       numbers.each do |number|
         numbers_coordinates << {
           key: number,
@@ -43,9 +37,19 @@ lines.each_with_index do |line, outer_index|
           starting_x_coordinate: line.index(number),
           y_coordinate: outer_index
         }
-      end
-      symbols.each_with_index do |symbol, inner_index|
-        symbol_coordinates << "(#{line.index(symbol) + inner_index}, #{outer_index})"
+        line[line.index(number)...(line.index(number) + number.length)] =
+          case number.length
+          when 1
+            "x"
+          when 2
+            "xx"
+          when 3
+            "xxx"
+          when 4
+            "xxxx"
+          when 5
+            "xxxxx"
+          end
       end
     end
   end
@@ -71,18 +75,21 @@ positions = numbers_coordinates.each.map do |number_coordinates|
   { value: number_coordinates[:value], positions: adjacent_positions.uniq }
 end
 
-# pp positions
+symbol_coordinates = []
+lines.each_with_index do |line, y|
+  line.strip.chars.each_with_index do |char, x|
+    is_special = !char.scan(/\W/).reject { |c| c.strip == "." }.empty?
+    symbol_coordinates << "(#{x}, #{y})" if is_special
+  end
+end
 
 part_numbers = []
-
 positions.each do |position|
   unless (position[:positions].intersection symbol_coordinates).empty?
     part_numbers << position[:value]
   end
 end
 
-# pp positions
+solution = part_numbers.sum
 
-pp symbol_coordinates
-
-pp part_numbers.sum
+puts "The solution to part one is #{solution}."
