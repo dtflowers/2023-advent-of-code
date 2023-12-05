@@ -1,3 +1,4 @@
+require "pry"
 ### BEGINNING OF PART 1 SOLUTION ####
 input = File.read("input.txt")
 
@@ -41,3 +42,36 @@ end
 
 puts "The answer to part one is #{lowest_location}"
 ### END OF PART 1 SOLUTION ####
+
+### BEGINNING OF PART 2 SOLUTION ####
+new_seeds = seeds.each_with_index.map do |seed, index|
+  next unless index.even?
+
+  (seed...(seed + seeds[index + 1]))
+end.compact
+
+lowest_location = nil
+location = 0
+loop do
+  location += 1
+  previous_value = location
+  map.reverse.each do |category|
+    category.values.first.detect do |line|
+      source_range = (line[:destination_start]...(line[:destination_start] + line[:length]))
+      in_range = source_range.include? previous_value
+      next unless in_range
+
+      previous_value = line[:source_start] + (previous_value - line[:destination_start])
+    end
+  end
+  lowest_location = location
+  exists = false
+  new_seeds.each do |range|
+    exists = range.include? previous_value
+    break if exists
+  end
+  break if exists
+end
+
+puts "The solution to part two is #{lowest_location}"
+### END OF PART 2 SOLUTION ####
