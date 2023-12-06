@@ -1,4 +1,3 @@
-require "pry"
 ### BEGINNING OF PART 1 SOLUTION ####
 input = File.read("input.txt")
 
