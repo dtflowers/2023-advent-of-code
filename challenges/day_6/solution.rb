@@ -1,5 +1,5 @@
-first_input = File.readlines("input.txt").map { |i| i.strip.split(": ").last.scan(/\d+/).map(&:to_i) }
-second_input = File.readlines("input.txt").map { |i| i.strip.split(": ").last.scan(/\d+/).join.to_i }
+first_input = File.readlines("input.txt").map { |i| i.scan(/\d+/).map(&:to_i) }
+second_input = File.readlines("input.txt").map { |i| i.scan(/\d+/).join.to_i }
 
 first_races = first_input.first.each_with_index.map do |time, i|
   {
