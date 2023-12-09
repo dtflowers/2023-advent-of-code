@@ -6,13 +6,11 @@ end
 history.map! do |sequence|
   sequences = [sequence]
   until sequence.compact.all?(&:zero?)
-    i = 0
     sequence = sequence.compact
-    sequence.map! do |number|
+    sequence = sequence.each_with_index.map do |number, i|
       next if i == sequence.length - 1
 
-      i += 1
-      interval = sequence[i] - number
+      interval = sequence[i + 1] - number
       interval
     end
     sequences << sequence.compact
