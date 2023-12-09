@@ -10,8 +10,7 @@ history.map! do |sequence|
     sequence = sequence.each_with_index.map do |number, i|
       next if i == sequence.length - 1
 
-      interval = sequence[i + 1] - number
-      interval
+      sequence[i + 1] - number
     end
     sequences << sequence.compact
   end
