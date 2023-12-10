@@ -1,6 +1,6 @@
 require "pry"
 ### BEGINNING OF PART 1 SOLUTION ####
-input = File.readlines("test_1.txt")
+input = File.readlines("test_1.txt").map(&:strip)
 
-puts input
+pp input
 ### BEGINNING OF PART 1 SOLUTION ####
